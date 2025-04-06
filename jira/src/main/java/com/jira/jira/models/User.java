@@ -32,10 +32,6 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    // Default constructor
-    public User() {
-    }
-
     // Getters and Setters
     public Long getId() {
         return id;

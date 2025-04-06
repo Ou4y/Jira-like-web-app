@@ -7,7 +7,11 @@ import com.jira.jira.models.User;
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
     User findByEmail(String email);
-    long count(); // This method counts all users in the database
+    long count();
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
+    
+    // New methods for edit validation
+    boolean existsByUsernameAndIdNot(String username, Long id);
+    boolean existsByEmailAndIdNot(String email, Long id);
 }

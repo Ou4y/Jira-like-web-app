@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jira.jira.models.User;
 import com.jira.jira.service.UserService;
@@ -75,4 +77,21 @@ public class UserController {
         userService.deleteUser(id);
         return "redirect:/dashboard";
     }
+    // AJAX validation endpoints
+    @GetMapping("/check-username")
+    @ResponseBody
+    public boolean checkUsernameExists(
+            @RequestParam String username,
+            @RequestParam Long id) {
+        return userService.doesUsernameExistExceptCurrent(username, id);
+    }
+
+    @GetMapping("/check-email")
+    @ResponseBody
+    public boolean checkEmailExists(
+            @RequestParam String email,
+            @RequestParam Long id) {
+        return userService.doesEmailExistExceptCurrent(email, id);
+    }
+    
 }

@@ -12,7 +12,7 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-
+    
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -47,8 +47,17 @@ public class UserService {
     public boolean doesUsernameExist(String username) {
         return userRepository.existsByUsername(username);
     }
-
+    
     public boolean doesEmailExist(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    // New methods for edit validation
+    public boolean doesUsernameExistExceptCurrent(String username, Long id) {
+        return userRepository.existsByUsernameAndIdNot(username, id);
+    }
+    
+    public boolean doesEmailExistExceptCurrent(String email, Long id) {
+        return userRepository.existsByEmailAndIdNot(email, id);
     }
 }
