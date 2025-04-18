@@ -26,8 +26,8 @@ public class UserController {
     @GetMapping
     public String getAllUsers(Model model) {
         model.addAttribute("users", userService.getAllUsers());
-        model.addAttribute("userCount", userService.countUsers()); // Add the count to the model
-        return "index";
+        model.addAttribute("userCount", userService.countUsers());
+        return "dashboard"; // Ensure it points to the correct template
     }
 
     @GetMapping("/add")

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.jira.jira.models.Project;
@@ -28,5 +29,12 @@ public class ProjectController {
     public String addProject(Project project) {
         projectRepository.save(project);
         return "redirect:/projects";
+    }
+
+    @GetMapping("/projects/view/{id}")
+    public String viewProject(@PathVariable Long id, Model model) {
+        Project project = projectRepository.findById(id).orElse(null);
+        model.addAttribute("project", project);
+        return "view-project";
     }
 }

@@ -1,28 +1,24 @@
 package com.jira.jira.models;
 
-import java.time.LocalDate;
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Project {
+public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String title;
     private String description;
     private String status;
-    private LocalDate startDate;
-    private int progress;
+    private int storyPoints;
 
-    @OneToMany(mappedBy = "project")
-    private List<Task> tasks;
+    @ManyToOne
+    private Project project;
 
     // Getters and setters
     public Long getId() {
@@ -33,12 +29,12 @@ public class Project {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -57,27 +53,19 @@ public class Project {
         this.status = status;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
+    public int getStoryPoints() {
+        return storyPoints;
     }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
+    public void setStoryPoints(int storyPoints) {
+        this.storyPoints = storyPoints;
     }
 
-    public int getProgress() {
-        return progress;
+    public Project getProject() {
+        return project;
     }
 
-    public void setProgress(int progress) {
-        this.progress = progress;
-    }
-
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
+    public void setProject(Project project) {
+        this.project = project;
     }
 }
