@@ -67,7 +67,10 @@ public class TaskController {
             task.setStoryPoints(storyPoints);
             taskRepository.save(task);
         }
-        return "redirect:/projects/view/" + task.getProject().getId();
+        if (task != null && task.getProject() != null) {
+            return "redirect:/projects/view/" + task.getProject().getId();
+        }
+        return "redirect:/projects";
     }
 
     @GetMapping("/delete/{id}")
