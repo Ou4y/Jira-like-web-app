@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 
 @Entity
 public class Project {
@@ -22,6 +23,7 @@ public class Project {
     private int progress;
 
     @OneToMany(mappedBy = "project")
+    @OrderBy("storyPoints DESC")
     private List<Task> tasks;
 
     // Getters and setters
