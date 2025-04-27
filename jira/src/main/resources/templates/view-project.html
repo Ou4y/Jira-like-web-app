@@ -106,6 +106,49 @@
                 <a th:href="@{/projects}" class="btn btn-primary">Back to Projects</a>
             </div>
         </div>
+
+        <!-- Scrum Board Section -->
+        <div class="mt-5">
+            <h2 class="text-center">Scrum Board</h2>
+            <div class="row mt-4">
+                <!-- To Do Column -->
+                <div class="col-md-4">
+                    <h4 class="text-center">To Do</h4>
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item" th:each="task : ${project.tasks}" 
+                                    th:if="${task.status == 'To Do'}" th:text="${task.title}"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- In Progress Column -->
+                <div class="col-md-4">
+                    <h4 class="text-center">In Progress</h4>
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item" th:each="task : ${project.tasks}" 
+                                    th:if="${task.status == 'In Progress'}" th:text="${task.title}"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Done Column -->
+                <div class="col-md-4">
+                    <h4 class="text-center">Done</h4>
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item" th:each="task : ${project.tasks}" 
+                                    th:if="${task.status == 'Done'}" th:text="${task.title}"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 <!-- Bootstrap JS -->
