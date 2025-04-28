@@ -1,6 +1,7 @@
 package com.jira.jira.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jira.jira.models.Task;
 import com.jira.jira.repositories.ProjectRepository;
@@ -34,16 +36,25 @@ public class TaskController {
     public String viewProject(@PathVariable Long projectId, Model model) {
         var project = projectRepository.findById(projectId).orElse(null);
         if (project == null) {
-            System.out.println("Project not found for ID: " + projectId);
-            return "error/404"; // Return a 404 error page if the project is not found
+            return "error/404";
         }
-        System.out.println("Project found: " + project.getName());
         model.addAttribute("project", project);
-        return "view-project"; // Ensure this matches the template name
+        return "view-project";
     }
 
     @PostMapping("/add")
-    public String addTask(@RequestParam Long projectId, @RequestParam int storyPoints, Task task) {
+    public String addTask(
+        @RequestParam Long projectId,
+        @RequestParam String status,
+        @RequestParam int storyPoints,
+        Task task
+    ) {
+        try {
+            task.setStatus(convertToTaskStatus(status));
+        } catch (IllegalArgumentException e) {
+            return "redirect:/projects/view/" + projectId + "?error=invalid_status";
+        }
+        
         task.setProject(projectRepository.findById(projectId).orElse(null));
         task.setStoryPoints(storyPoints);
         taskRepository.save(task);
@@ -58,17 +69,27 @@ public class TaskController {
     }
 
     @PostMapping("/edit/{id}")
-    public String editTask(@PathVariable Long id, @RequestParam int storyPoints, Task updatedTask) {
+    public String editTask(
+        @PathVariable Long id,
+        @RequestParam String status,
+        @RequestParam int storyPoints,
+        Task updatedTask
+    ) {
         Task task = taskRepository.findById(id).orElse(null);
         if (task != null) {
+            try {
+                task.setStatus(convertToTaskStatus(status));
+            } catch (IllegalArgumentException e) {
+                return "redirect:/projects?error=invalid_status";
+            }
             task.setTitle(updatedTask.getTitle());
             task.setDescription(updatedTask.getDescription());
-            task.setStatus(updatedTask.getStatus());
             task.setStoryPoints(storyPoints);
             taskRepository.save(task);
-        }
-        if (task != null && task.getProject() != null) {
-            return "redirect:/projects/view/" + task.getProject().getId();
+            
+            if (task.getProject() != null) {
+                return "redirect:/projects/view/" + task.getProject().getId();
+            }
         }
         return "redirect:/projects";
     }
@@ -76,11 +97,36 @@ public class TaskController {
     @GetMapping("/delete/{id}")
     public String deleteTask(@PathVariable Long id) {
         Task task = taskRepository.findById(id).orElse(null);
-        if (task != null) {
+        if (task != null && task.getProject() != null) {
             Long projectId = task.getProject().getId();
             taskRepository.delete(task);
             return "redirect:/projects/view/" + projectId;
         }
         return "redirect:/projects";
+    }
+
+    @PostMapping("/update-status/{taskId}")
+    @ResponseBody
+    public ResponseEntity<?> updateTaskStatus(
+        @PathVariable Long taskId,
+        @RequestParam String newStatus
+    ) {
+        try {
+            Task task = taskRepository.findById(taskId).orElse(null);
+            if (task != null) {
+                task.setStatus(convertToTaskStatus(newStatus));
+                taskRepository.save(task);
+                return ResponseEntity.ok().build();
+            }
+            return ResponseEntity.notFound().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid status value");
+        }
+    }
+
+    private Task.Status convertToTaskStatus(String status) throws IllegalArgumentException {
+        return Task.Status.valueOf(
+            status.trim().toUpperCase().replace(" ", "_")
+        );
     }
 }
