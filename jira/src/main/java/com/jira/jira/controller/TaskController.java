@@ -1,19 +1,25 @@
 package com.jira.jira.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.jira.jira.models.Task;
 import com.jira.jira.repositories.ProjectRepository;
 import com.jira.jira.repositories.TaskRepository;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/tasks")
@@ -34,11 +40,13 @@ public class TaskController {
 
     @GetMapping("/view/{projectId}")
     public String viewProject(@PathVariable Long projectId, Model model) {
-        var project = projectRepository.findById(projectId).orElse(null);
-        if (project == null) {
-            return "error/404";
-        }
+        var project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        
+        // Load tasks with the project
+        project.setTasks(taskRepository.findByProjectId(projectId));
         model.addAttribute("project", project);
+        model.addAttribute("allStatuses", Task.Status.values());
         return "view-project";
     }
 
@@ -52,41 +60,50 @@ public class TaskController {
         try {
             task.setStatus(convertToTaskStatus(status));
         } catch (IllegalArgumentException e) {
-            return "redirect:/projects/view/" + projectId + "?error=invalid_status";
+            return "redirect:/projects/view/" + projectId + "?error=invalid_status"; // Corrected URL
         }
         
         task.setProject(projectRepository.findById(projectId).orElse(null));
         task.setStoryPoints(storyPoints);
         taskRepository.save(task);
-        return "redirect:/projects/view/" + projectId;
+        return "redirect:/projects/view/" + projectId; // Corrected URL
     }
 
     @GetMapping("/edit/{id}")
     public String editTaskForm(@PathVariable Long id, Model model) {
-        Task task = taskRepository.findById(id).orElse(null);
-        model.addAttribute("task", task);
+        Task task = taskRepository.findByIdWithProject(id);
+        if (task != null) {
+            model.addAttribute("task", task);
+            model.addAttribute("project", task.getProject());
+            // Add this line to provide statuses to the template
+            model.addAttribute("allStatuses", Task.Status.values());
+        }
         return "edit-task";
     }
 
     @PostMapping("/edit/{id}")
     public String editTask(
         @PathVariable Long id,
-        @RequestParam String status,
-        @RequestParam int storyPoints,
-        Task updatedTask
+        @Valid @ModelAttribute("task") Task updatedTask,
+        BindingResult result
     ) {
+        if (result.hasErrors()) {
+            return "edit-task";
+        }
+        
         Task task = taskRepository.findById(id).orElse(null);
         if (task != null) {
-            try {
-                task.setStatus(convertToTaskStatus(status));
-            } catch (IllegalArgumentException e) {
-                return "redirect:/projects?error=invalid_status";
-            }
             task.setTitle(updatedTask.getTitle());
             task.setDescription(updatedTask.getDescription());
-            task.setStoryPoints(storyPoints);
+            try {
+                task.setStatus(convertToTaskStatus(updatedTask.getStatus().toString()));
+            } catch (IllegalArgumentException e) {
+                return "redirect:/projects/view/" + task.getProject().getId() + "?error=invalid_status";
+            }
+            task.setStoryPoints(updatedTask.getStoryPoints());
             taskRepository.save(task);
-            
+
+            // Ensure redirection to the current project page
             if (task.getProject() != null) {
                 return "redirect:/projects/view/" + task.getProject().getId();
             }
@@ -100,7 +117,7 @@ public class TaskController {
         if (task != null && task.getProject() != null) {
             Long projectId = task.getProject().getId();
             taskRepository.delete(task);
-            return "redirect:/projects/view/" + projectId;
+            return "redirect:/projects/view/" + projectId; // Corrected URL
         }
         return "redirect:/projects";
     }
@@ -125,8 +142,11 @@ public class TaskController {
     }
 
     private Task.Status convertToTaskStatus(String status) throws IllegalArgumentException {
-        return Task.Status.valueOf(
-            status.trim().toUpperCase().replace(" ", "_")
-        );
+        String normalized = status.trim().toUpperCase().replace(" ", "_");
+        try {
+            return Task.Status.valueOf(normalized);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid status: " + normalized, e);
+        }
     }
 }

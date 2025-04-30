@@ -3,11 +3,13 @@ package com.jira.jira.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.jira.jira.models.Project;
 import com.jira.jira.repositories.ProjectRepository;
@@ -33,8 +35,8 @@ public class ProjectController {
 
     @GetMapping("/projects/view/{id}")
     public String viewProject(@PathVariable Long id, Model model) {
-        Project project = projectRepository.findById(id).orElse(null);
+        Project project = projectRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         model.addAttribute("project", project);
-        return "view-project";
+        return "view-project"; // Ensure this matches the correct template
     }
 }

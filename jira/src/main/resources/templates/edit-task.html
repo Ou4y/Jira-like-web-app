@@ -26,9 +26,9 @@
                 <div class="mb-3">
                     <label for="status" class="form-label">Status:</label>
                     <select id="status" th:field="*{status}" class="form-select" required>
-                        <option value="To Do">To Do</option>
-                        <option value="In Progress">In Progress</option>
-                        <option value="Done">Done</option>
+                        <option th:each="status : ${allStatuses}" 
+                                th:value="${status.displayName}" 
+                                th:text="${status.displayName}"></option>
                     </select>
                 </div>
                 <div class="mb-3">
@@ -48,9 +48,6 @@
                     <button type="submit" class="btn btn-success">Update Task</button>
                 </div>
             </form>
-        </div>
-        <div class="text-center mt-4">
-            <a th:href="@{/projects/view/{id}(id=${task.project.id})}" class="btn btn-primary">Back to Project</a>
         </div>
     </div>
 
