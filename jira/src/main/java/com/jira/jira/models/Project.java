@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,8 +23,8 @@ public class Project {
     private LocalDate startDate;
     private int progress;
 
-    @OneToMany(mappedBy = "project")
-    @OrderBy("storyPoints DESC")
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
+    @OrderBy("status ASC, storyPoints DESC")
     private List<Task> tasks;
 
     // Getters and setters

@@ -33,7 +33,7 @@ public class TaskController {
 
     @GetMapping("/project/{projectId}")
     public String getTasksByProject(@PathVariable Long projectId, Model model) {
-        model.addAttribute("tasks", taskRepository.findByProjectId(projectId));
+        model.addAttribute("tasks", taskRepository.findByProjectIdOrderByStoryPointsDesc(projectId));
         model.addAttribute("project", projectRepository.findById(projectId).orElse(null));
         return "tasks";
     }
@@ -44,7 +44,9 @@ public class TaskController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         
         // Load tasks with the project
-        project.setTasks(taskRepository.findByProjectId(projectId));
+        var tasks = taskRepository.findByProjectIdOrderByStoryPointsDesc(projectId);
+        project.setTasks(tasks);
+        
         model.addAttribute("project", project);
         model.addAttribute("allStatuses", Task.Status.values());
         return "view-project";
