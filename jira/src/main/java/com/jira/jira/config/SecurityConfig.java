@@ -13,8 +13,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                                 .anyRequest().permitAll() // Allow all requests without authentication
-                )
-                .csrf(csrf -> csrf.disable()); // Disable CSRF for simplicity (not recommended for production)
+                );
         return http.build();
     }
 }
