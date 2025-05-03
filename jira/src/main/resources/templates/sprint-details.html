@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sprint Details</title>
+</head>
+<body>
+    <h1>Sprint Details</h1>
+    <p><strong>Sprint ID:</strong> <span th:text="${sprint.id}"></span></p>
+    <p><strong>Start Date:</strong> <span th:text="${sprint.startDate}"></span></p>
+    <p><strong>End Date:</strong> <span th:text="${sprint.endDate}"></span></p>
+    <p><strong>Status:</strong> <span th:text="${sprint.status}"></span></p>
+
+    <h2>Sprint Backlog</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Task ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Story Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="task : ${sprint.sprintBacklog}">
+                <td th:text="${task.id}"></td>
+                <td th:text="${task.title}"></td>
+                <td th:text="${task.description}"></td>
+                <td th:text="${task.status}"></td>
+                <td th:text="${task.storyPoints}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

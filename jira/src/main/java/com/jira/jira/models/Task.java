@@ -54,6 +54,10 @@ public class Task {
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sprint_id")
+    private Sprint sprint;
+
     // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -69,6 +73,14 @@ public class Task {
         return project != null ? project : new Project(); // Return a new Project if null
     }
     public void setProject(Project project) { this.project = project; }
+
+    public Sprint getSprint() {
+        return sprint;
+    }
+
+    public void setSprint(Sprint sprint) {
+        this.sprint = sprint;
+    }
 
     public static Status[] getAllStatuses() {
         return Status.values();

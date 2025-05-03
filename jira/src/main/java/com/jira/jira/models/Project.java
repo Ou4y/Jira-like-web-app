@@ -1,8 +1,10 @@
 package com.jira.jira.models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +28,9 @@ public class Project {
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
     @OrderBy("status ASC, storyPoints DESC")
     private List<Task> tasks;
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Sprint> sprints = new ArrayList<>();
 
     // Getters and setters
     public Long getId() {
@@ -79,8 +84,16 @@ public class Project {
     public List<Task> getTasks() {
         return tasks;
     }
-//push test 2
+
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public List<Sprint> getSprints() {
+        return sprints;
+    }
+
+    public void setSprints(List<Sprint> sprints) {
+        this.sprints = sprints;
     }
 }

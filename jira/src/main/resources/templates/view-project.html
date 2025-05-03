@@ -26,6 +26,31 @@
           </div>
       </div>
 
+      <!-- Current Sprints -->
+      <h2>Current Sprints</h2>
+      <table>
+          <thead>
+              <tr>
+                  <th>Sprint ID</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr th:each="sprint : ${project.sprints}">
+                  <td th:text="${sprint.id}"></td>
+                  <td th:text="${sprint.startDate}"></td>
+                  <td th:text="${sprint.endDate}"></td>
+                  <td th:text="${sprint.status}"></td>
+                  <td>
+                      <a th:href="@{/sprints/details/{id}(id=${sprint.id})}">View Details</a>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+
       <!-- Simplified Task Management Section -->
       <div class="row">
           <div class="col-md-8">
