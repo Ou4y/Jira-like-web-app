@@ -10,7 +10,8 @@ import jakarta.servlet.http.HttpServletRequest;
 public class AdviceController {
     @ModelAttribute("currentPath")
     public String getCurrentPath(HttpServletRequest request) {
-        return request.getRequestURI() != null ? request.getRequestURI() : "";
+        String uri = request.getRequestURI();
+        return (uri != null && !uri.isEmpty()) ? uri.replaceAll("/$", "") : "/";
     }
 
     @ModelAttribute("isHomePage")
@@ -18,8 +19,15 @@ public class AdviceController {
         String path = request.getRequestURI();
         return path != null && path.equals("/");
     }
+
     @ModelAttribute("_csrf")
     public CsrfToken getCsrfToken(HttpServletRequest request) {
         return (CsrfToken) request.getAttribute("_csrf");
+    }
+
+    // Add the request object explicitly to the context
+    @ModelAttribute("request")
+    public HttpServletRequest addRequestToContext(HttpServletRequest request) {
+        return request;
     }
 }
