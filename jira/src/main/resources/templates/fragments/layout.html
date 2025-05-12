@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Default Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" integrity="sha384-9ndCyUa1zY2e2pIcQ6i7kU6c3p0aQwzj3fQjzF5r9xT5z5e5z5e5e5e5e5e5e5" crossorigin="anonymous">
+</head>
+<body>
+    <div th:fragment="layout (title, content)">
+        <div th:replace="~{fragments/navbar :: navbar}"></div>
+        
+        <main class="container mt-4">
+            <div th:utext="${content}"></div> <!-- Use th:utext for raw HTML -->
+        </main>
+
+        <footer class="text-center mt-4">
+            <p>&copy; 2023 Jira-like App</p>
+        </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-9ndCyUa1zY2e2pIcQ6i7kU6c3p0aQwzj3fQjzF5r9xT5z5e5z5e5e5e5e5e5" crossorigin="anonymous"></script>
+</body>
+</html>
