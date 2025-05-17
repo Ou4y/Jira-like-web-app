@@ -1,96 +1,89 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::title}, ~{::content})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout(~{::title}, ~{::content})}">
 <head>
     <title>Projects</title>
 </head>
 <body>
-<main>
-    <div>
-        <!-- Ensure this content block is properly defined -->
-        <div th:fragment="content">
-            <h1 class="text-center">Projects</h1>
-            <!-- Table of projects -->
-            <table class="table table-striped table-bordered mt-4">
-                <thead class="table-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Status</th>
-                        <th>Start Date</th>
-                        <th>Progress (%)</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="project : ${projects}">
-                        <td th:text="${project.id}"></td>
-                        <td th:text="${project.name}"></td>
-                        <td th:text="${project.description}"></td>
-                        <td th:text="${project.status}"></td>
-                        <td th:text="${project.startDate}"></td>
-                        <td th:text="${project.progress}"></td>
-                        <td>
-                            <a th:href="@{/projects/view/{id}(id=${project.id})}" class="btn btn-primary btn-sm">View Project</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <!-- Collapsible form for adding a new project -->
-            <div class="collapse" id="addProjectForm">
-                <div class="card card-body shadow">
-                    <form th:action="@{/projects/add}" method="post">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Project Name:</label>
-                            <input type="text" id="name" name="name" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Description:</label>
-                            <textarea id="description" name="description" class="form-control" rows="3" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="status" class="form-label">Status:</label>
-                            <select id="status" name="status" class="form-select" required>
-                                <option value="Not Started">Not Started</option>
-                                <option value="In Progress" selected>In Progress</option>
-                                <option value="Completed">Completed</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="startDate" class="form-label">Start Date:</label>
-                            <input type="date" id="startDate" name="startDate" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="progress" class="form-label">Progress (%):</label>
-                            <input type="number" id="progress" name="progress" class="form-control" min="0" max="100" value="0" required oninput="updateStatus()">
-                        </div>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-success">Create Project</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <!-- Button to toggle the form -->
-            <div class="text-center mb-4">
-                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#addProjectForm" aria-expanded="false" aria-controls="addProjectForm">
-                    Add New Project
-                </button>
+    <div th:fragment="content">
+        <h1 class="text-center">Projects</h1>
+        <!-- Table of projects -->
+        <table class="table table-striped table-bordered mt-4">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Start Date</th>
+                    <th>Progress (%)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="project : ${projects}">
+                    <td th:text="${project.id}"></td>
+                    <td th:text="${project.name}"></td>
+                    <td th:text="${project.description}"></td>
+                    <td th:text="${project.status}"></td>
+                    <td th:text="${project.startDate}"></td>
+                    <td th:text="${project.progress}"></td>
+                    <td>
+                        <a th:href="@{/projects/view/{id}(id=${project.id})}" class="btn btn-primary btn-sm">View Project</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- Collapsible form for adding a new project -->
+        <div class="collapse" id="addProjectForm">
+            <div class="card card-body shadow">
+                <form th:action="@{/projects/add}" method="post">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Project Name:</label>
+                        <input type="text" id="name" name="name" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description:</label>
+                        <textarea id="description" name="description" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status:</label>
+                        <select id="status" name="status" class="form-select" required>
+                            <option value="Not Started">Not Started</option>
+                            <option value="In Progress" selected>In Progress</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="startDate" class="form-label">Start Date:</label>
+                        <input type="date" id="startDate" name="startDate" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="progress" class="form-label">Progress (%):</label>
+                        <input type="number" id="progress" name="progress" class="form-control" min="0" max="100" value="0" required oninput="updateStatus()">
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">Create Project</button>
+                    </div>
+                </form>
             </div>
         </div>
+        <!-- Button to toggle the form -->
+        <div class="text-center mb-4">
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#addProjectForm" aria-expanded="false" aria-controls="addProjectForm">
+                Add New Project
+            </button>
+        </div>
+        <script>
+            function updateStatus() {
+                const progressInput = document.getElementById('progress');
+                const statusSelect = document.getElementById('status');
+                if (progressInput.value == 100) {
+                    statusSelect.value = 'Completed';
+                } else if (statusSelect.value === 'Completed') {
+                    statusSelect.value = 'In Progress';
+                }
+            }
+        </script>
     </div>
-</main>
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    function updateStatus() {
-        const progressInput = document.getElementById('progress');
-        const statusSelect = document.getElementById('status');
-        if (progressInput.value == 100) {
-            statusSelect.value = 'Completed';
-        } else if (statusSelect.value === 'Completed') {
-            statusSelect.value = 'In Progress';
-        }
-    }
-</script>
 </body>
 </html>

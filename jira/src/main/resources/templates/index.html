@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::title}, ~{::content})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout(~{::title}, ~{::content})}">
 <head>
     <title>Welcome</title>
 </head>
 <body>
-    <section th:fragment="content">
-        <div>
-            <h1 class="text-center">Welcome to the Admin Dashboard</h1>
-            <p class="text-center">Manage your users and projects efficiently.</p>
-        </div>
-    </section>
+    <div th:fragment="content">
+        <h1 class="text-center">Welcome to the Admin Dashboard</h1>
+        <p class="text-center">Manage your users and projects efficiently.</p>
+    </div>
 </body>
 </html>

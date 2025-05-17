@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="layout (title, content)">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:replace="${title}">Default Title</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" integrity="sha384-9ndCyUa1zY2e2pIcQ6i7kU6c3p0aQwzj3fQjzF5r9xT5z5e5z5e5e5e5e5e5e5" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:replace="${title}">Jira-like App</title>
+    <!-- Latest Bootstrap 5.3.6 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
 </head>
 <body>
-    <div th:fragment="layout (title, content)">
+    <div>
         <div th:replace="~{fragments/navbar :: navbar}"></div>
-        
         <main class="container mt-4">
-            <div th:insert="${content}"></div>
+            <div th:replace="${content}"></div>
         </main>
-
         <footer class="text-center mt-4">
             <p>&copy; 2023 Jira-like App</p>
         </footer>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-9ndCyUa1zY2e2pIcQ6i7kU6c3p0aQwzj3fQjzF5r9xT5z5e5z5e5e5e5e5e5e5" crossorigin="anonymous"></script>
+    <!-- Latest Bootstrap 5.3.6 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>
 </html>

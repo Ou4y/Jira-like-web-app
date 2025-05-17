@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::title}, ~{::content})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout(~{::title}, ~{::content})}">
 <head>
     <title>Login</title>
 </head>
 <body>
-<main>
-    <div>
+    <div th:fragment="content">
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-md-6">
@@ -37,6 +36,5 @@
             </div>
         </div>
     </div>
-</main>
 </body>
 </html>

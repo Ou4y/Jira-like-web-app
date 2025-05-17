@@ -1,38 +1,32 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<body>
-    <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" th:href="@{/}">Jira-like App</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" 
-                           th:href="@{/}" 
-                           th:classappend="${request != null and request.requestURI == '/'} ? 'active'">
-                           Home
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" 
-                           th:href="@{/dashboard}" 
-                           th:classappend="${request != null and request.requestURI.startsWith('/dashboard')} ? 'active'">
-                           Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" 
-                           th:href="@{/projects}" 
-                           th:classappend="${request != null and request.requestURI.startsWith('/dashboard')} ? 'active'">
-                           projects
-                        </a>
-                    </li>
-                </ul>
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">Jira-like App</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="navbar-nav">
+                <!-- Home Link -->
+                <a th:href="@{/}"
+                   th:class="${#servletPath == '/' or #servletPath == null ? 'nav-link active' : 'nav-link'}"
+                   th:attr="aria-current=${#servletPath == '/' ? 'page' : null}">
+                   Home
+                </a>
+
+                <!-- Dashboard Link -->
+                <a th:href="@{/dashboard}"
+                   th:class="${#servletPath?.startsWith('/dashboard') == true ? 'nav-link active' : 'nav-link'}"
+                   th:attr="aria-current=${#servletPath?.startsWith('/dashboard') == true ? 'page' : null}">
+                   Dashboard
+                </a>
+
+                <!-- Projects Link -->
+                <a th:href="@{/projects}"
+                   th:class="${#servletPath?.startsWith('/projects') == true ? 'nav-link active' : 'nav-link'}"
+                   th:attr="aria-current=${#servletPath?.startsWith('/projects') == true ? 'page' : null}">
+                   Projects
+                </a>
             </div>
         </div>
-    </nav>
-</body>
-</html>
+    </div>
+</nav>

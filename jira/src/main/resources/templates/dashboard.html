@@ -4,37 +4,35 @@
     <title>Dashboard</title>
 </head>
 <body>
-<section th:fragment="content">
-    <div class="container mt-5">
-        <h1 class="text-center">Users</h1>
-        <p class="text-center">Total Users: <span th:text="${userCount}"></span></p>
-
-        <table class="table table-striped table-bordered mt-4">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="user : ${users}">
-                    <td th:text="${user.id}"></td>
-                    <td th:text="${user.username}"></td>
-                    <td th:text="${user.email}"></td>
-                    <td>
-                        <a th:href="@{/dashboard/edit/{id}(id=${user.id})}" class="btn btn-warning btn-sm">Edit</a>
-                        <a th:href="@{/dashboard/delete/{id}(id=${user.id})}" class="btn btn-danger btn-sm">Delete</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="text-center mt-4">
-            <a th:href="@{/dashboard/add}" class="btn btn-primary">Add User</a>
+    <div th:fragment="content">
+        <div class="container mt-5">
+            <h1 class="text-center">Users</h1>
+            <p class="text-center">Total Users: <span th:text="${userCount}"></span></p>
+            <table class="table table-striped table-bordered mt-4">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user : ${users}">
+                        <td th:text="${user.id}"></td>
+                        <td th:text="${user.username}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td>
+                            <a th:href="@{/dashboard/edit/{id}(id=${user.id})}" class="btn btn-warning btn-sm">Edit</a>
+                            <a th:href="@{/dashboard/delete/{id}(id=${user.id})}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-center mt-4">
+                <a th:href="@{/dashboard/add}" class="btn btn-primary">Add User</a>
+            </div>
         </div>
     </div>
-</section>
 </body>
 </html>
