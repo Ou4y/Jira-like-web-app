@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.jira.jira.models.Task;
 import com.jira.jira.repositories.ProjectRepository;
@@ -32,24 +32,24 @@ public class TaskController {
     private ProjectRepository projectRepository;
 
     @GetMapping("/project/{projectId}")
-    public String getTasksByProject(@PathVariable Long projectId, Model model) {
-        model.addAttribute("tasks", taskRepository.findByProjectIdOrderByStoryPointsDesc(projectId));
-        model.addAttribute("project", projectRepository.findById(projectId).orElse(null));
-        return "tasks";
+    public ModelAndView getTasksByProject(@PathVariable Long projectId) {
+        ModelAndView mav = new ModelAndView("tasks");
+        mav.addObject("tasks", taskRepository.findByProjectIdOrderByStoryPointsDesc(projectId));
+        mav.addObject("project", projectRepository.findById(projectId).orElse(null));
+        return mav;
     }
 
     @GetMapping("/view/{projectId}")
-    public String viewProject(@PathVariable Long projectId, Model model) {
+    public ModelAndView viewProject(@PathVariable Long projectId) {
         var project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        
-        // Load tasks with the project
         var tasks = taskRepository.findByProjectIdOrderByStoryPointsDesc(projectId);
         project.setTasks(tasks);
-        
-        model.addAttribute("project", project);
-        model.addAttribute("allStatuses", Task.Status.values());
-        return "view-project";
+
+        ModelAndView mav = new ModelAndView("view-project");
+        mav.addObject("project", project);
+        mav.addObject("allStatuses", Task.Status.values());
+        return mav;
     }
 
     @PostMapping("/add")
@@ -62,25 +62,24 @@ public class TaskController {
         try {
             task.setStatus(convertToTaskStatus(status));
         } catch (IllegalArgumentException e) {
-            return "redirect:/projects/view/" + projectId + "?error=invalid_status"; // Corrected URL
+            return "redirect:/projects/view/" + projectId + "?error=invalid_status";
         }
-        
         task.setProject(projectRepository.findById(projectId).orElse(null));
         task.setStoryPoints(storyPoints);
         taskRepository.save(task);
-        return "redirect:/projects/view/" + projectId; // Corrected URL
+        return "redirect:/projects/view/" + projectId;
     }
 
     @GetMapping("/edit/{id}")
-    public String editTaskForm(@PathVariable Long id, Model model) {
+    public ModelAndView editTaskForm(@PathVariable Long id) {
         Task task = taskRepository.findByIdWithProject(id);
+        ModelAndView mav = new ModelAndView("edit-task");
         if (task != null) {
-            model.addAttribute("task", task);
-            model.addAttribute("project", task.getProject());
-            // Add this line to provide statuses to the template
-            model.addAttribute("allStatuses", Task.Status.values());
+            mav.addObject("task", task);
+            mav.addObject("project", task.getProject());
+            mav.addObject("allStatuses", Task.Status.values());
         }
-        return "edit-task";
+        return mav;
     }
 
     @PostMapping("/edit/{id}")
@@ -92,7 +91,6 @@ public class TaskController {
         if (result.hasErrors()) {
             return "edit-task";
         }
-        
         Task task = taskRepository.findById(id).orElse(null);
         if (task != null) {
             task.setTitle(updatedTask.getTitle());
@@ -104,8 +102,6 @@ public class TaskController {
             }
             task.setStoryPoints(updatedTask.getStoryPoints());
             taskRepository.save(task);
-
-            // Ensure redirection to the current project page
             if (task.getProject() != null) {
                 return "redirect:/projects/view/" + task.getProject().getId();
             }
@@ -119,7 +115,7 @@ public class TaskController {
         if (task != null && task.getProject() != null) {
             Long projectId = task.getProject().getId();
             taskRepository.delete(task);
-            return "redirect:/projects/view/" + projectId; // Corrected URL
+            return "redirect:/projects/view/" + projectId;
         }
         return "redirect:/projects";
     }

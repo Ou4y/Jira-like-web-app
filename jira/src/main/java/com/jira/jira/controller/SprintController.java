@@ -3,7 +3,6 @@ package com.jira.jira.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.jira.jira.models.Project;
 import com.jira.jira.models.Sprint;
@@ -28,20 +28,22 @@ public class SprintController {
     private ProjectRepository projectRepository;
 
     @GetMapping("/project/{projectId}")
-    public String getSprintsByProject(@PathVariable Long projectId, Model model) {
+    public ModelAndView getSprintsByProject(@PathVariable Long projectId) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        model.addAttribute("project", project);
-        model.addAttribute("sprints", project.getSprints());
-        return "sprints";
+        ModelAndView mav = new ModelAndView("sprints");
+        mav.addObject("project", project);
+        mav.addObject("sprints", project.getSprints());
+        return mav;
     }
 
     @GetMapping("/details/{id}")
-    public String getSprintDetails(@PathVariable Long id, Model model) {
+    public ModelAndView getSprintDetails(@PathVariable Long id) {
         Sprint sprint = sprintRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        model.addAttribute("sprint", sprint);
-        return "sprint-details";
+        ModelAndView mav = new ModelAndView("sprint-details");
+        mav.addObject("sprint", sprint);
+        return mav;
     }
 
     @PostMapping("/add")

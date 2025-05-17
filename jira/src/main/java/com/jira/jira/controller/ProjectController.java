@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.jira.jira.models.Project;
 import com.jira.jira.models.Task;
@@ -28,10 +28,11 @@ public class ProjectController {
     private TaskRepository taskRepository;
 
     @GetMapping
-    public String getProjectsPage(Model model) {
+    public ModelAndView listProjects() {
         List<Project> projects = projectRepository.findAll();
-        model.addAttribute("projects", projects);
-        return "projects";
+        ModelAndView mav = new ModelAndView("projects");
+        mav.addObject("projects", projects);
+        return mav;
     }
 
     @PostMapping("/add")
@@ -41,16 +42,16 @@ public class ProjectController {
     }
 
     @GetMapping("/view/{id}")
-    public String viewProject(@PathVariable Long id, Model model) {
+    public ModelAndView viewProject(@PathVariable Long id) {
         Project project = projectRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        
-        // Load tasks for the project
         List<Task> tasks = taskRepository.findByProjectIdOrderByStoryPointsDesc(id);
         project.setTasks(tasks);
-        
-        model.addAttribute("project", project);
-        model.addAttribute("allStatuses", Task.Status.values());
-        return "view-project";
+
+        ModelAndView mav = new ModelAndView("view-project");
+        mav.addObject("project", project);
+        mav.addObject("allStatuses", Task.Status.values());
+        return mav;
     }
 }
+
