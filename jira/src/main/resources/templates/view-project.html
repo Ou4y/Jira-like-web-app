@@ -110,6 +110,59 @@
                 </div>
             </div>
 
+            <!-- Add Sprint Button -->
+            <div class="mb-3 text-end">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSprintModal">
+                    <i class="bi bi-plus-circle"></i> Create New Sprint
+                </button>
+            </div>
+
+            <!-- Add Sprint Modal -->
+            <div class="modal fade" id="addSprintModal" tabindex="-1" aria-labelledby="addSprintModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form th:action="@{/sprints/add}" method="post" id="addSprintForm">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addSprintModalLabel">Create New Sprint</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" name="projectId" th:value="${project.id}" />
+                                <div class="mb-3">
+                                    <label for="sprintStartDate" class="form-label">Start Date</label>
+                                    <input type="date" class="form-control" id="sprintStartDate" name="startDate" readonly required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="sprintDuration" class="form-label">Duration (weeks)</label>
+                                    <select class="form-select" id="sprintDuration" name="duration" required>
+                                        <option value="1">1 week</option>
+                                        <option value="2" selected>2 weeks (recommended)</option>
+                                        <option value="3">3 weeks</option>
+                                        <option value="4">4 weeks</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="sprintEndDate" class="form-label">End Date</label>
+                                    <input type="date" class="form-control" id="sprintEndDate" name="endDate" readonly required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="sprintStatus" class="form-label">Status</label>
+                                    <select class="form-select" id="sprintStatus" name="status" required>
+                                        <option value="NOT_STARTED">Not Started</option>
+                                        <option value="IN_PROGRESS" selected>In Progress</option>
+                                        <option value="COMPLETED">Completed</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-success">Create Sprint</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
             <!-- Current Sprints -->
             <div class="card shadow mb-4">
                 <div class="card-header bg-dark text-white">
@@ -146,3 +199,41 @@
     </div>
 </body>
 </html>
+
+<script>
+    // Set start date to today and update end date based on duration
+    document.addEventListener('DOMContentLoaded', function () {
+        const startDateInput = document.getElementById('sprintStartDate');
+        const endDateInput = document.getElementById('sprintEndDate');
+        const durationSelect = document.getElementById('sprintDuration');
+
+        function pad(n) { return n < 10 ? '0' + n : n; }
+
+        function getToday() {
+            const today = new Date();
+            return today.getFullYear() + '-' + pad(today.getMonth() + 1) + '-' + pad(today.getDate());
+        }
+
+        function calcEndDate(start, weeks) {
+            const d = new Date(start);
+            d.setDate(d.getDate() + weeks * 7 - 1);
+            return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+        }
+
+        function updateDates() {
+            const today = getToday();
+            startDateInput.value = today;
+            const weeks = parseInt(durationSelect.value, 10);
+            endDateInput.value = calcEndDate(today, weeks);
+        }
+
+        // Set initial values
+        updateDates();
+
+        // Update end date when duration changes
+        durationSelect.addEventListener('change', updateDates);
+
+        // Also update when modal is shown (in case user reopens)
+        document.getElementById('addSprintModal').addEventListener('show.bs.modal', updateDates);
+    });
+</script>
