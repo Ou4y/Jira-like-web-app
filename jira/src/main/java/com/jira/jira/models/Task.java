@@ -15,13 +15,15 @@ import jakarta.persistence.ManyToOne;
 @Entity
 public class Task {
     public enum Status {
-        TODO("To Do"),
-        IN_PROGRESS("In Progress"),
-        DONE("Done");
+        TODO("To Do", "badge-todo"),
+        IN_PROGRESS("In Progress", "badge-in-progress"),
+        DONE("Done", "badge-done");
         private final String displayName;
-
-        Status(String displayName) {
+        private final String badgeClass;
+        
+        Status(String displayName, String badgeClass) {
             this.displayName = displayName;
+            this.badgeClass = badgeClass;
         }
 
         public String getDisplayName() {
@@ -31,6 +33,8 @@ public class Task {
         public String getName() {
             return name();
         }
+     
+        public String getBadgeClass()  { return badgeClass; }
     }
 
     @Id
@@ -85,4 +89,5 @@ public class Task {
     public static Status[] getAllStatuses() {
         return Status.values();
     }
+    
 }

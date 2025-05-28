@@ -65,4 +65,22 @@ public class SprintController {
         // Redirect to the sprint details page
         return "redirect:/sprints/details/" + sprintId;
     }
+
+    @PostMapping("/finish")
+    public String finishSprint(@RequestParam Long sprintId) {
+        Sprint sprint = sprintRepository.findById(sprintId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        // Set to COMPLETED only if all tasks are done, otherwise revert to IN_PROGRESS
+        long total = sprint.getSprintBacklog().size();
+        long done = sprint.getSprintBacklog().stream()
+                .filter(task -> task.getStatus() != null && "DONE".equals(task.getStatus().name()))
+                .count();
+        if (total > 0 && done == total) {
+            sprint.setStatus(Sprint.Status.COMPLETED); // or .DONE if that's your enum
+        } else {
+            sprint.setStatus(Sprint.Status.IN_PROGRESS);
+        }
+        sprintRepository.save(sprint);
+        return "redirect:/projects/view/" + sprint.getProject().getId();
+    }
 }
