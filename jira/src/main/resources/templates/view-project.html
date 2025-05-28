@@ -141,14 +141,8 @@
                                     <label for="sprintEndDate" class="form-label">End Date</label>
                                     <input type="date" class="form-control" id="sprintEndDate" name="endDate" readonly required>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="sprintStatus" class="form-label">Status</label>
-                                    <select class="form-select" id="sprintStatus" name="status" required>
-                                        <option value="NOT_STARTED">Not Started</option>
-                                        <option value="IN_PROGRESS" selected>In Progress</option>
-                                        <option value="COMPLETED">Completed</option>
-                                    </select>
-                                </div>
+                                <!-- Status field: hidden, always IN_PROGRESS -->
+                                <input type="hidden" name="status" value="IN_PROGRESS" />
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
