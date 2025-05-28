@@ -27,16 +27,6 @@ public class SprintController {
     @Autowired
     private ProjectRepository projectRepository;
 
-    @GetMapping("/project/{projectId}")
-    public ModelAndView getSprintsByProject(@PathVariable Long projectId) {
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        ModelAndView mav = new ModelAndView("sprints");
-        mav.addObject("project", project);
-        mav.addObject("sprints", project.getSprints());
-        return mav;
-    }
-
     @GetMapping("/details/{id}")
     public ModelAndView getSprintDetails(@PathVariable Long id) {
         Sprint sprint = sprintRepository.findById(id)
@@ -52,6 +42,6 @@ public class SprintController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         sprint.setProject(project);
         sprintRepository.save(sprint);
-        return "redirect:/sprints/project/" + projectId;
+        return "redirect:/projects/view/" + projectId;
     }
 }
