@@ -72,6 +72,11 @@
 			<scope>compile</scope> <!-- Added scope -->
  		</dependency>
 		<!-- Add your dependencies here -->
+		<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <scope>test</scope>
+</dependency>
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-security</artifactId>
