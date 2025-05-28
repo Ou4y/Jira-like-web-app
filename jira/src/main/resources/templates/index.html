@@ -7,6 +7,10 @@
     <div th:fragment="content">
         <h1 class="text-center">Welcome to JIRA-LIKE</h1>
         <p class="text-center">Manage your users and projects efficiently.</p>
+
+        <div class="text-center" th:if="${user}">
+            <p>You are logged in as <strong th:text="${user.username}"></strong></p>
+        </div>
     </div>
 </body>
 </html>

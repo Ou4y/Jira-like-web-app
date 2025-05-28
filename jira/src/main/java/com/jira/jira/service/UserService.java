@@ -7,11 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    
+    public Optional<User> getUserByUsername(String username) {
+    return Optional.ofNullable(userRepository.findByUsername(username));
+}
+
     
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -22,6 +28,7 @@ public class UserService {
     }
 
     public User addUser(User user) {
+        // Store password as plain text - no encryption
         return userRepository.save(user);
     }
 
@@ -30,7 +37,10 @@ public class UserService {
         if (user != null) {
             user.setUsername(userDetails.getUsername());
             user.setEmail(userDetails.getEmail());
-            user.setPassword(userDetails.getPassword());
+            // Store password as plain text if provided
+            if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
+                user.setPassword(userDetails.getPassword());
+            }
             return userRepository.save(user);
         }
         return null;
@@ -59,5 +69,36 @@ public class UserService {
     
     public boolean doesEmailExistExceptCurrent(String email, Long id) {
         return userRepository.existsByEmailAndIdNot(email, id);
+    }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public void save(User user) {
+        userRepository.save(user); // Save password as plain text
+    }
+
+    public User authenticate(String username, String password) {
+    if (username == null || password == null) return null;
+    User user = userRepository.findByUsername(username.trim());
+    if (user != null && password.trim().equals(user.getPassword().trim())) {
+        return user;
+    }
+    return null;
+}
+
+
+    // Alternative authentication by email - direct string comparison
+    public User authenticateByEmail(String email, String password) {
+        User user = userRepository.findByEmail(email);
+        if (user != null && password.equals(user.getPassword())) {
+            return user;
+        }
+        return null;
     }
 }
