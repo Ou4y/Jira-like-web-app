@@ -1,0 +1,156 @@
+2025-05-29T00:08:17.960+03:00  INFO 44225 --- [restartedMain] com.jira.jira.JiraApplication            : Starting JiraApplication using Java 21.0.7 with PID 44225 (/Users/moashraf/Desktop/Jira/Jira-like-web-app/jira/target/classes started by moashraf in /Users/moashraf/Desktop/Jira)
+2025-05-29T00:08:17.960+03:00  INFO 44225 --- [restartedMain] com.jira.jira.JiraApplication            : No active profile set, falling back to 1 default profile: "default"
+2025-05-29T00:08:18.068+03:00  INFO 44225 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-29T00:08:18.073+03:00  INFO 44225 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 4 ms. Found 4 JPA repository interfaces.
+2025-05-29T00:08:18.135+03:00  INFO 44225 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 9090 (http)
+2025-05-29T00:08:18.136+03:00  INFO 44225 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-29T00:08:18.136+03:00  INFO 44225 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-05-29T00:08:18.142+03:00  INFO 44225 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/jira]   : Initializing Spring embedded WebApplicationContext
+2025-05-29T00:08:18.142+03:00  INFO 44225 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 181 ms
+2025-05-29T00:08:18.194+03:00  INFO 44225 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-29T00:08:18.195+03:00  INFO 44225 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-29T00:08:18.198+03:00  INFO 44225 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-29T00:08:18.198+03:00  INFO 44225 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariCP - Starting...
+2025-05-29T00:08:18.201+03:00  INFO 44225 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariCP - Added connection com.mysql.cj.jdbc.ConnectionImpl@229d4b18
+2025-05-29T00:08:18.201+03:00  INFO 44225 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariCP - Start completed.
+2025-05-29T00:08:18.201+03:00  WARN 44225 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-29T00:08:18.202+03:00  INFO 44225 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariCP)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-29T00:08:18.239+03:00  INFO 44225 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-29T00:08:18.259+03:00  INFO 44225 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-29T00:08:18.353+03:00  WARN 44225 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-29T00:08:18.364+03:00  INFO 44225 --- [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-05-29T00:08:18.364+03:00  WARN 44225 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-05-29T00:08:18.379+03:00  INFO 44225 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2025-05-29T00:08:18.602+03:00  INFO 44225 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-05-29T00:08:18.626+03:00  INFO 44225 --- [restartedMain] o.s.v.b.OptionalValidatorFactoryBean     : Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2025-05-29T00:08:18.716+03:00  INFO 44225 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-29T00:08:18.725+03:00  INFO 44225 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 9090 (http) with context path '/jira'
+2025-05-29T00:08:18.728+03:00  INFO 44225 --- [restartedMain] com.jira.jira.JiraApplication            : Started JiraApplication in 0.786 seconds (process running for 105.493)
+2025-05-29T00:08:18.730+03:00  INFO 44225 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+   LogFileWebEndpointAutoConfiguration#logFileWebEndpoint matched:
+      - Log File found logging.file.name application.log (LogFileWebEndpointAutoConfiguration.LogFileCondition)
+      - @ConditionalOnMissingBean (types: org.springframework.boot.actuate.logging.LogFileWebEndpoint; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+
+Negative matches:
+-----------------
+
+    None
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2025-05-29T00:09:21.734+03:00  INFO 44225 --- [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-29T00:09:21.736+03:00  INFO 44225 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-29T00:09:21.740+03:00  INFO 44225 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-29T00:09:21.740+03:00  INFO 44225 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariCP - Shutdown initiated...
+2025-05-29T00:09:21.742+03:00  INFO 44225 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariCP - Shutdown completed.
+2025-05-29T00:09:22.751+03:00  INFO 45099 --- [restartedMain] com.jira.jira.JiraApplication            : Starting JiraApplication using Java 21.0.7 with PID 45099 (/Users/moashraf/Desktop/Jira/Jira-like-web-app/jira/target/classes started by moashraf in /Users/moashraf/Desktop/Jira)
+2025-05-29T00:09:22.752+03:00  INFO 45099 --- [restartedMain] com.jira.jira.JiraApplication            : No active profile set, falling back to 1 default profile: "default"
+2025-05-29T00:09:22.776+03:00  INFO 45099 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-05-29T00:09:22.776+03:00  INFO 45099 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-05-29T00:09:23.170+03:00  INFO 45099 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-29T00:09:23.197+03:00  INFO 45099 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 23 ms. Found 4 JPA repository interfaces.
+2025-05-29T00:09:23.636+03:00  INFO 45099 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 9090 (http)
+2025-05-29T00:09:23.642+03:00  INFO 45099 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-29T00:09:23.642+03:00  INFO 45099 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-05-29T00:09:23.662+03:00  INFO 45099 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/jira]   : Initializing Spring embedded WebApplicationContext
+2025-05-29T00:09:23.662+03:00  INFO 45099 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 886 ms
+2025-05-29T00:09:23.847+03:00  INFO 45099 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-29T00:09:23.864+03:00  INFO 45099 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.13.Final
+2025-05-29T00:09:23.877+03:00  INFO 45099 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-29T00:09:23.973+03:00  INFO 45099 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-29T00:09:23.985+03:00  INFO 45099 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariCP - Starting...
+2025-05-29T00:09:24.055+03:00  INFO 45099 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariCP - Added connection com.mysql.cj.jdbc.ConnectionImpl@35e13434
+2025-05-29T00:09:24.055+03:00  INFO 45099 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariCP - Start completed.
+2025-05-29T00:09:24.075+03:00  WARN 45099 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-29T00:09:24.083+03:00  INFO 45099 --- [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariCP)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-29T00:09:24.433+03:00  INFO 45099 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-29T00:09:24.467+03:00  INFO 45099 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-29T00:09:24.700+03:00  INFO 45099 --- [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-05-29T00:09:25.000+03:00  WARN 45099 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-29T00:09:25.025+03:00  INFO 45099 --- [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-05-29T00:09:25.025+03:00  WARN 45099 --- [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-05-29T00:09:25.065+03:00  INFO 45099 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2025-05-29T00:09:25.551+03:00  INFO 45099 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-05-29T00:09:25.612+03:00  INFO 45099 --- [restartedMain] o.s.v.b.OptionalValidatorFactoryBean     : Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2025-05-29T00:09:25.824+03:00  INFO 45099 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-29T00:09:25.864+03:00  INFO 45099 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 9090 (http) with context path '/jira'
+2025-05-29T00:09:25.879+03:00  INFO 45099 --- [restartedMain] com.jira.jira.JiraApplication            : Started JiraApplication in 3.33 seconds (process running for 3.602)
+2025-05-29T00:09:28.760+03:00  INFO 45099 --- [RMI TCP Connection(2)-127.0.0.1] o.a.c.c.C.[Tomcat].[localhost].[/jira]   : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-29T00:09:28.760+03:00  INFO 45099 --- [RMI TCP Connection(2)-127.0.0.1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-05-29T00:09:28.760+03:00  INFO 45099 --- [RMI TCP Connection(2)-127.0.0.1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2025-05-29T00:09:46.579+03:00 DEBUG 45099 --- [http-nio-9090-exec-1] org.hibernate.SQL                        : 
+    select
+        p1_0.id,
+        p1_0.description,
+        p1_0.name,
+        p1_0.progress,
+        p1_0.start_date,
+        p1_0.status 
+    from
+        project p1_0
+2025-05-29T00:10:32.661+03:00  INFO 45099 --- [http-nio-9090-exec-6] com.jira.jira.aop.LoggingAspect          : Entering: com.jira.jira.service.CustomUserDetailsService.loadUserByUsername() with arguments = [Mohamedtest]
+2025-05-29T00:10:32.700+03:00 DEBUG 45099 --- [http-nio-9090-exec-6] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.password,
+        u1_0.username 
+    from
+        user u1_0 
+    where
+        u1_0.username=?
+2025-05-29T00:10:32.703+03:00  INFO 45099 --- [http-nio-9090-exec-6] com.jira.jira.aop.LoggingAspect          : Exiting: com.jira.jira.service.CustomUserDetailsService.loadUserByUsername() with result = org.springframework.security.core.userdetails.User [Username=Mohamedtest, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[USER]]
+2025-05-29T00:10:32.709+03:00  INFO 45099 --- [http-nio-9090-exec-7] com.jira.jira.aop.LoggingAspect          : Entering: com.jira.jira.service.UserService.getUserByUsername() with arguments = [Mohamedtest]
+2025-05-29T00:10:32.710+03:00 DEBUG 45099 --- [http-nio-9090-exec-7] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.password,
+        u1_0.username 
+    from
+        user u1_0 
+    where
+        u1_0.username=?
+2025-05-29T00:10:32.711+03:00  INFO 45099 --- [http-nio-9090-exec-7] com.jira.jira.aop.LoggingAspect          : Exiting: com.jira.jira.service.UserService.getUserByUsername() with result = Optional[com.jira.jira.models.User@1aebb70a]
+2025-05-29T00:14:58.167+03:00  INFO 45099 --- [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-29T00:14:58.169+03:00  INFO 45099 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-29T00:14:58.174+03:00  INFO 45099 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-29T00:14:58.176+03:00  INFO 45099 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariCP - Shutdown initiated...
+2025-05-29T00:14:58.179+03:00  INFO 45099 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariCP - Shutdown completed.
