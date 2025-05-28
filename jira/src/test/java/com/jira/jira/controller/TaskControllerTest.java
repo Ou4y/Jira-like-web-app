@@ -1,7 +1,6 @@
 package com.jira.jira.controller;
 
 import com.jira.jira.models.Task;
-import com.jira.jira.controller.TaskController;
 import com.jira.jira.models.Project;
 import com.jira.jira.repositories.ProjectRepository;
 import com.jira.jira.repositories.TaskRepository;
@@ -160,7 +159,7 @@ class TaskControllerTest {
 
         ResponseEntity<?> response = taskController.updateTaskStatus(taskId, "INVALID");
 
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(400, response.getStatusCode().value());
         assertTrue(response.getBody().toString().contains("Invalid status"));
     }
 }
