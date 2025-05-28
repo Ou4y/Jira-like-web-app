@@ -81,14 +81,8 @@
                                     <textarea name="description" class="form-control" rows="3" required></textarea>
                                 </div>
                                 
-                                <div class="mb-3">
-                                    <label class="form-label">Status</label>
-                                    <select name="status" class="form-select" required>
-                                        <option th:each="status : ${T(com.jira.jira.models.Task.Status).values()}"
-                                                th:value="${status.name()}"
-                                                th:text="${status.displayName}"></option>
-                                    </select>
-                                </div>
+                                <!-- Status field: hidden, always TODO -->
+                                <input type="hidden" name="status" value="TODO" />
                                 
                                 <div class="mb-3">
                                     <label class="form-label">Story Points</label>
