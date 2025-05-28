@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login</title>
+    <title>Sign Up</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -9,8 +9,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            padding: 1rem;
         }
         .auth-container {
             background: #fff;
@@ -32,7 +33,7 @@
             color: #2d3a4b;
             font-weight: 500;
         }
-        input[type="text"], input[type="password"] {
+        input[type="text"], input[type="email"], input[type="password"] {
             width: 100%;
             padding: 0.75rem;
             border: 1px solid #d1d5db;
@@ -41,7 +42,7 @@
             font-size: 1rem;
             box-sizing: border-box;
         }
-        input[type="text"]:focus, input[type="password"]:focus {
+        input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
             outline: none;
             border-color: #4f8cff;
             box-shadow: 0 0 0 2px rgba(79, 140, 255, 0.2);
@@ -91,31 +92,44 @@
             border-radius: 5px;
             border-left: 4px solid #38a169;
         }
+        .password-requirements {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.3rem;
+            line-height: 1.4;
+        }
     </style>
 </head>
 <body>
     <div class="auth-container">
-        <h2>Login</h2>
-        
-        <!-- Success message for successful signup -->
-        <div class="success-message" th:if="${param.success}" th:text="'Account created successfully! Please login.'"></div>
-        
-        <!-- Success message for logout -->
-        <div class="success-message" th:if="${param.logout}" th:text="'You have been logged out successfully.'"></div>
+        <h2>Sign Up</h2>
         
         <!-- Error message -->
         <div class="error-message" th:if="${error}" th:text="${error}"></div>
         
-        <form th:action="@{/login}" method="post">
+        <!-- Success message -->
+        <div class="success-message" th:if="${success}" th:text="${success}"></div>
+        
+        <form th:action="@{/signup}" th:object="${user}" method="post">
             <label>Username:
-                <input type="text" name="username" required placeholder="Enter your username"/>
+                <input type="text" th:field="*{username}" required placeholder="Enter username (3-15 characters)"/>
             </label>
+            
+            <label>Email:
+                <input type="email" th:field="*{email}" required placeholder="Enter your email"/>
+            </label>
+            
             <label>Password:
-                <input type="password" name="password" required placeholder="Enter your password"/>
+                <input type="password" th:field="*{password}" required placeholder="Enter your password"/>
+                <div class="password-requirements">
+                    Password must be at least 8 characters with uppercase, lowercase, number, and special character (!@#$%^&*).
+                </div>
             </label>
-            <button type="submit">Login</button>
+            
+            <button type="submit">Sign Up</button>
         </form>
-        <a class="switch-link" th:href="@{/signup}">Don't have an account? Sign up</a>
+        
+        <a class="switch-link" th:href="@{/login}">Already have an account? Login</a>
     </div>
 </body>
 </html>
