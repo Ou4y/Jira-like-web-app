@@ -32,7 +32,9 @@
                             <div class="table-responsive">
                                 <table class="table table-hover">
                                     <tbody>
-                                        <tr th:each="task : ${project.tasks}">
+                                        <tr th:each="task : ${project.tasks}"
+                                            th:if="${task.sprint == null}">
+                                            <!-- Only show tasks not assigned to a sprint -->
                                             <td th:text="${task.title}"></td>
                                             <td>
                                                 <span class="badge" 
@@ -51,7 +53,33 @@
                                                 <a th:href="@{/tasks/edit/{id}(id=${task.id})}" 
                                                    class="btn btn-sm btn-outline-warning me-2">Edit</a>
                                                 <a th:href="@{/tasks/delete/{id}(id=${task.id})}" 
-                                                   class="btn btn-sm btn-outline-danger">Delete</a>
+                                                   class="btn btn-sm btn-outline-danger me-2">Delete</a>
+                                                <!-- Add to Sprint Button -->
+                                                <div class="dropdown d-inline-block" style="position:relative;">
+                                                    <button type="button"
+                                                            class="btn btn-sm btn-outline-primary dropdown-toggle"
+                                                            th:attr="id='addToSprintBtn-' + ${task.id}"
+                                                            data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
+                                                        Add to Sprint
+                                                    </button>
+                                                    <ul class="dropdown-menu" th:attr="aria-labelledby='addToSprintBtn-' + ${task.id}">
+                                                        <li th:each="sprint : ${project.sprints}">
+                                                            <form th:action="@{/sprints/add-task}" method="post" style="margin:0;">
+                                                                <input type="hidden" name="taskId" th:value="${task.id}" />
+                                                                <input type="hidden" name="sprintId" th:value="${sprint.id}" />
+                                                                <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}" />
+                                                                <button type="submit" class="dropdown-item" th:text="'Sprint #' + ${sprint.id} + ' (' + ${sprint.status} + ')'"></button>
+                                                            </form>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- Show message if backlog is empty -->
+                                        <tr th:if="${#lists.isEmpty(project.tasks.?[sprint == null])}">
+                                            <td colspan="4" class="text-center text-success fw-bold py-4">
+                                                Great there is no work today!
                                             </td>
                                         </tr>
                                     </tbody>
@@ -226,4 +254,25 @@
         // Also update when modal is shown (in case user reopens)
         document.getElementById('addSprintModal').addEventListener('show.bs.modal', updateDates);
     });
+
+    // Show/Hide the sprint dropdown for the clicked task
+    function showSprintDropdown(btn) {
+        // Hide all other dropdowns
+        document.querySelectorAll('.dropdown-menu').forEach(function(menu) {
+            menu.style.display = 'none';
+        });
+        // Show the dropdown for this task
+        var taskId = btn.getAttribute('data-task-id');
+        var dropdown = document.getElementById('sprint-dropdown-' + taskId);
+        if (dropdown) {
+            dropdown.style.display = (dropdown.style.display === 'block') ? 'none' : 'block';
+        }
+        // Hide dropdown if clicked outside
+        document.addEventListener('click', function handler(e) {
+            if (!btn.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.style.display = 'none';
+                document.removeEventListener('click', handler);
+            }
+        });
+    }
 </script>

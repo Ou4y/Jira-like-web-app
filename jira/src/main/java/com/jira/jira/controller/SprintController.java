@@ -44,4 +44,25 @@ public class SprintController {
         sprintRepository.save(sprint);
         return "redirect:/projects/view/" + projectId;
     }
+
+    @PostMapping("/add-task")
+    public String addTaskToSprint(
+            @RequestParam Long sprintId,
+            @RequestParam Long taskId
+    ) {
+        var sprint = sprintRepository.findById(sprintId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        var task = sprint.getProject().getTasks().stream()
+                .filter(t -> t.getId().equals(taskId))
+                .findFirst()
+                .orElse(null);
+        if (task != null) {
+            task.setSprint(sprint);
+            // Optionally, update status or other fields here
+            sprint.getSprintBacklog().add(task);
+            sprintRepository.save(sprint);
+        }
+        // Redirect to the sprint details page
+        return "redirect:/sprints/details/" + sprintId;
+    }
 }

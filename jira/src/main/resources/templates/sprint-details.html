@@ -36,12 +36,82 @@
                     </td>
                     <td>
                         <span th:text="${task.storyPoints}" 
-                              th:classappend="${task.storyPoints <= 3 ? 'text-success' : 
-                                              (task.storyPoints <= 13 ? 'text-warning' : 'text-danger')}"></span>
+                              th:classappend="${task.storyPoints <= 3 ? 'bg-success text-white' : 
+                                              (task.storyPoints <= 13 ? 'bg-warning text-dark' : 'bg-danger text-white')}"
+                              style="padding: 0.35em 0.75em; border-radius: 0.5em; font-weight: bold; display: inline-block;">
+                        </span>
                     </td>
                 </tr>
             </tbody>
         </table>
+
+        <!-- Scrum Board Section for Sprint -->
+        <div class="card shadow mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Scrum Board</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <!-- TO-DO Column -->
+                    <div class="col-md-4">
+                        <div class="bg-light p-2 rounded mb-2 text-center fw-bold">TO-DO</div>
+                        <div>
+                            <div th:each="task : ${sprint.sprintBacklog}" th:if="${task.status.name() == 'TODO'}" class="card mb-2">
+                                <div class="card-body p-2">
+                                    <div class="fw-bold" th:text="${task.title}"></div>
+                                    <div class="small text-muted" th:text="${task.description}"></div>
+                                    <span th:text="${task.storyPoints}" 
+                                          th:classappend="${task.storyPoints <= 3 ? 'bg-success text-white' : 
+                                                          (task.storyPoints <= 13 ? 'bg-warning text-dark' : 'bg-danger text-white')}"
+                                          style="padding: 0.2em 0.6em; border-radius: 0.5em; font-weight: bold; display: inline-block; font-size: 0.9em;">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- IN-PROGRESS Column -->
+                    <div class="col-md-4">
+                        <div class="bg-light p-2 rounded mb-2 text-center fw-bold">IN-PROGRESS</div>
+                        <div>
+                            <div th:each="task : ${sprint.sprintBacklog}" th:if="${task.status.name() == 'IN_PROGRESS'}" class="card mb-2">
+                                <div class="card-body p-2">
+                                    <div class="fw-bold" th:text="${task.title}"></div>
+                                    <div class="small text-muted" th:text="${task.description}"></div>
+                                    <span th:text="${task.storyPoints}" 
+                                          th:classappend="${task.storyPoints <= 3 ? 'bg-success text-white' : 
+                                                          (task.storyPoints <= 13 ? 'bg-warning text-dark' : 'bg-danger text-white')}"
+                                          style="padding: 0.2em 0.6em; border-radius: 0.5em; font-weight: bold; display: inline-block; font-size: 0.9em;">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- DONE Column -->
+                    <div class="col-md-4">
+                        <div class="bg-light p-2 rounded mb-2 text-center fw-bold">DONE</div>
+                        <div>
+                            <div th:each="task : ${sprint.sprintBacklog}" th:if="${task.status.name() == 'DONE'}" class="card mb-2">
+                                <div class="card-body p-2">
+                                    <div class="fw-bold" th:text="${task.title}"></div>
+                                    <div class="small text-muted" th:text="${task.description}"></div>
+                                    <span th:text="${task.storyPoints}" 
+                                          th:classappend="${task.storyPoints <= 3 ? 'bg-success text-white' : 
+                                                          (task.storyPoints <= 13 ? 'bg-warning text-dark' : 'bg-danger text-white')}"
+                                          style="padding: 0.2em 0.6em; border-radius: 0.5em; font-weight: bold; display: inline-block; font-size: 0.9em;">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Back to Project Button -->
+        <div class="mt-3">
+            <a th:href="@{/projects/view/{id}(id=${sprint.project.id})}" class="btn btn-outline-secondary">
+                Back to Project
+            </a>
+        </div>
     </div>
 </section>
 </body>
