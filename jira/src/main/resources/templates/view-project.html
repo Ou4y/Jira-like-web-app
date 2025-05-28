@@ -42,8 +42,10 @@
                                             </td>
                                             <td>
                                                 <span th:text="${task.storyPoints}" 
-                                                      th:classappend="${task.storyPoints <= 3 ? 'text-success' : 
-                                                                      (task.storyPoints <= 13 ? 'text-warning' : 'text-danger')}"></span>
+                                                      th:classappend="${task.storyPoints <= 3 ? 'bg-success text-white' : 
+                                                                      (task.storyPoints <= 13 ? 'bg-warning text-dark' : 'bg-danger text-white')}"
+                                                      style="padding: 0.35em 0.75em; border-radius: 0.5em; font-weight: bold; display: inline-block;">
+                                                </span>
                                             </td>
                                             <td>
                                                 <a th:href="@{/tasks/edit/{id}(id=${task.id})}" 
