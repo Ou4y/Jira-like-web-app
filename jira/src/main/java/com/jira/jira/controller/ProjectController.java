@@ -13,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jira.jira.models.Project;
+import com.jira.jira.models.Sprint;
 import com.jira.jira.models.Task;
 import com.jira.jira.repositories.ProjectRepository;
 import com.jira.jira.repositories.TaskRepository;
@@ -30,6 +31,23 @@ public class ProjectController {
     @GetMapping
     public ModelAndView listProjects() {
         List<Project> projects = projectRepository.findAll();
+        // Calculate progress for each project
+        for (Project project : projects) {
+            List<Sprint> sprints = project.getSprints();
+            int total = (sprints != null) ? sprints.size() : 0;
+            int done = 0;
+            if (total > 0) {
+                for (Sprint sprint : sprints) {
+                    if (sprint.getStatus() != null && "COMPLETED".equals(sprint.getStatus().name())) {
+                        done++;
+                    }
+                }
+                int progress = (int) Math.round((done * 100.0) / total);
+                project.setProgress(progress);
+            } else {
+                project.setProgress(0);
+            }
+        }
         ModelAndView mav = new ModelAndView("projects");
         mav.addObject("projects", projects);
         return mav;

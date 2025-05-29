@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
+import jakarta.persistence.Transient;
 
 @Entity
 public class Project {
@@ -23,6 +24,8 @@ public class Project {
     private String description;
     private String status;
     private LocalDate startDate;
+
+    @Transient
     private int progress;
 
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
